@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Food Recommendations</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        h2 {
+            color: #007bff;
+        }
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+        .table td {
+            vertical-align: middle;
+        }
+        .alert {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Your Personalized Food Recommendations</h2>
+
+    {% if grouped_recommendations and grouped_recommendations|length > 0 %}
+
+        <!-- Helper Macro to render meal sections -->
+        {% macro render_meal_section(title, keys, include_egg=True) %}
+            {% set meal_recs = [] %}
+            {% set category_names = [] %}
+            {% set is_egg = false %}
+            {% for key in keys %}
+                {% if grouped_recommendations[key] is defined %}
+                    {% for rec in grouped_recommendations[key] %}
+                        {% set _ = meal_recs.append(rec) %}
+                    {% endfor %}
+                    {% if 'Egg' in key %}
+                        {% set is_egg = true %}
+                    {% endif %}
+                    {% set _ = category_names.append(key) %}
+                    {% endif %}
+                {% endfor %}
+            {% if meal_recs %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">{{ title }}</h5>
+                    </div>
+                    <div class="card-body p-3">
+                        {% if title != 'Shake' and title != 'Snack' %}
+                            {% if is_egg %}
+                                <div class="alert alert-success"><strong>🥚 Mandatory:</strong> Please include these items in your meal.</div>
+                            {% else %}
+                                <div class="alert alert-warning">
+                                    <strong>✅ Tip:</strong> Choose only one item from the following categories: 
+                                    <strong>{{ category_names | join(', ') }}</strong>. Egg is compulsory.
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div class="alert alert-warning">
+                                <strong>✅ Tip:</strong> Choose only one item from this Session.
+                            </div>
+                        {% endif %}
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Food</th>
+                                    <th>Count</th>
+                                    <th>Gram</th>
+                                    <th>Calories</th>
+                                    <th>Session</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for rec in meal_recs %}
+                                    <tr>
+                                        <td>{{ rec.recommended_food }}</td>
+                                        <td>{{ rec.count if rec.count is not none else '-' }}</td>
+                                        <td>{{ rec.gram if rec.gram is not none else '-' }}</td>
+                                        <td>{{ rec.calories }}</td>
+                                        <td>{{ rec.sesion }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            {% endif %}
+        {% endmacro %}
+
+        <!-- Render Sections for Each Meal Type -->
+        {{ render_meal_section('Breakfast', ['Breakfast Main Dish', 'Breakfast Side Dish']) }}
+        {{ render_meal_section('Shake', ['Shake'], include_egg=False) }}
+        {{ render_meal_section('Lunch', ['Lunch Main Dish', 'Lunch Side Dish']) }}
+        {{ render_meal_section('Snack', ['Snack'], include_egg=False) }}
+        {{ render_meal_section('Dinner', ['Dinner Main Dish', 'Dinner Side Dish']) }}
+
+    {% else %}
+        <div class="alert alert-warning text-center">
+            No food recommendations found for this user.
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>

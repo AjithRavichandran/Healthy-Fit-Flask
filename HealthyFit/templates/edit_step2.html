@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Profile - Step 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 600px;">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">Edit Advanced Details</h3>
+
+            <!-- BMI Info -->
+            <div class="alert alert-info text-center">
+                <strong>Your BMI is {{ bmi }}</strong><br>
+                This indicates you are <strong>{{ status }}</strong>.<br>
+                Your ideal weight is around <strong>{{ recommended_weight }} kg</strong>.
+            </div>
+
+            <!-- Flashed Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <!-- Calorie Warning (Optional) -->
+            {% if calorie_warning %}
+                <div class="alert alert-warning">
+                    {{ calorie_warning }}
+                </div>
+            {% endif %}
+
+            <!-- Form -->
+            <form method="POST" action="{{ url_for('main.edit_step2', user_id=user.id) }}">
+                <div class="mb-3">
+                    <label>Target Weight (kg)</label>
+                    <input type="number" step="0.1" name="target_weight" class="form-control"
+                           value="{{ user.target_weight }}">
+                </div>
+
+                <div class="mb-3">
+                    <label>Activity Level</label>
+                    <select name="activity_level" class="form-select">
+                        <option value="1.2" {% if user.activity_level == 1.2 %}selected{% endif %}>Sedentary</option>
+                        <option value="1.375" {% if user.activity_level == 1.375 %}selected{% endif %}>Lightly Active</option>
+                        <option value="1.55" {% if user.activity_level == 1.55 %}selected{% endif %}>Moderately Active</option>
+                        <option value="1.725" {% if user.activity_level == 1.725 %}selected{% endif %}>Very Active</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label>Pace Level</label>
+                    <select name="pace" class="form-select">
+                        <option value="1.3" {% if user.pace == 1.3 %}selected{% endif %}>Aggressive (750 kcal)</option>
+                        <option value="2" {% if user.pace == 2 %}selected{% endif %}>Gradual (500 kcal)</option>
+                        <option value="4" {% if user.pace == 4 %}selected{% endif %}>Relaxed (250 kcal)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

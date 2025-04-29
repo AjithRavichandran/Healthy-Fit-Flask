@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthyFit - Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hero-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+    <!-- Banner Image -->
+    <div class="mb-4 text-center">
+        <img src="https://source.unsplash.com/1200x400/?fitness,health" alt="HealthyFit Banner" class="hero-img shadow">
+    </div>
+
+    <!-- Welcome Text -->
+    <div class="text-center">
+        <h1 class="mb-3">Welcome to HealthyFit!</h1>
+        <p class="lead">HealthyFit is your personalized fitness companion. Track your goals, monitor your progress, and stay motivated with us. Whether you're looking to lose weight, gain muscle, or simply live healthier — we’ve got you covered.</p>
+
+        <!-- Login and Signup Buttons -->
+        <div class="mt-4">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary me-2">Login</a>
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-success">Sign Up</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

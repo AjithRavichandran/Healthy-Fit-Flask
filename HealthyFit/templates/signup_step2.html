@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup - Step 2</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 500px;">
+        <div class="card-body">
+            <h4 class="card-title text-center mb-4">Sign Up - Step 2</h4>
+
+            <div class="alert alert-info text-center">
+                <strong>Your BMI is {{ bmi }}</strong><br>
+                This indicates you are <strong>{{ status }}</strong>.<br>
+                Your ideal weight is around <strong>{{ recommended_weight }} kg</strong>.
+            </div>
+
+            {% if calorie_warning %}
+                <div class="alert alert-danger text-center">
+                    {{ calorie_warning }}
+                </div>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('auth.signup_complete') }}">
+                <!-- Target Weight -->
+                <div class="mb-3">
+                    <label for="target_weight" class="form-label">Target Weight (kg)</label>
+                    <input type="number" step="0.1" name="target_weight" id="target_weight" class="form-control"
+                           value="{{ target_weight if target_weight else '' }}" required>
+                </div>
+
+                <!-- Activity Level -->
+                <div class="mb-3">
+                    <label for="activity_level" class="form-label">Activity Level</label>
+                    <select name="activity_level" id="activity_level" class="form-select" required>
+                        <option value="" disabled>Select your activity level</option>
+                        <option value="1.2" {% if selected_activity_level == 1.2 %}selected{% endif %}>Sedentary</option>
+                        <option value="1.4" {% if selected_activity_level == 1.4 %}selected{% endif %}>Light Activity</option>
+                        <option value="1.6" {% if selected_activity_level == 1.6 %}selected{% endif %}>Moderate Activity</option>
+                        <option value="1.8" {% if selected_activity_level == 1.8 %}selected{% endif %}>Very Active</option>
+                    </select>
+                </div>
+
+                <!-- Weight Change Pace -->
+                <div class="mb-3">
+                    <label for="pace_level" class="form-label">How fast do you want to increase or decrease weight per week?</label>
+                    <select name="pace_level" id="pace_level" class="form-select" required>
+                        <option value="" disabled>Select your pace</option>
+                        <option value="4" {% if selected_pace_level == 4.0 %}selected{% endif %}>Relaxed (0.25 kg/week)</option>
+                        <option value="2" {% if selected_pace_level == 2.0 %}selected{% endif %}>Gradual (0.5 kg/week)</option>
+                        <option value="1.3" {% if selected_pace_level == 1.3 %}selected{% endif %}>Aggressive (0.75 kg/week)</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">Finish Signup</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
