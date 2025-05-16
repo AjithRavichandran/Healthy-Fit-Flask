@@ -83,6 +83,16 @@ def edit_step2(user_id):
                 )
 
             user.adjusted_calories = adjusted_calories
+
+            # ❗️Delete old recommendations
+            g.db.query(FoodRecommendation).filter_by(user_id=user.id).delete()
+
+            # ✅ Generate new recommendations
+            recommendations = build_recommendations(
+                user.id, adjusted_calories, user.current_weight, user.target_weight
+            )
+
+            g.db.add_all(recommendations)
             g.db.commit()
 
             flash("✅ Step 2 updated successfully", "success")
@@ -103,7 +113,7 @@ def edit_step2(user_id):
                 recommended_weight=recommended_weight
             )
 
-    # GET Request
+    # GET request
     bmi = calculate_bmi(user.current_weight, user.height)
     status, recommended_weight = recommend_weight(bmi, user.height, user.current_weight)
     return render_template(

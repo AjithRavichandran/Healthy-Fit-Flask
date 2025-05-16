@@ -269,7 +269,7 @@ def build_recommendations(user_id, adjusted_calories, current_weight, target_wei
     else:
         shakes = [
             ("Shake (100gm of banana, 3 Almond, 3 Cashew, 2 Dates, Use Water, 1 teaspoon of Chia seed)", 1, 250, 'Shake'),
-            ("Shake (100gm of banana, 1 teaspoon Raisins, 1/2 Walnut, Use Water, 1 teaspoon of Chia seed)", 1, 250, 'Snack')
+            ("Shake (100gm of banana, 1 teaspoon Raisins, 1/2 Walnut, Use Water, 1 teaspoon of Chia seed)", 1, 250, 'Shake')
         ]
         snack = [
             ("2 slice of Bread with 2 teaspoon of Peanut Butter", 1, 230, 'Snack'),

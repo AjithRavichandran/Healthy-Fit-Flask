@@ -6,8 +6,40 @@ from .extensions import Session
 from .formula import *
 import traceback
 from collections import defaultdict
+import re
 
 auth = Blueprint('auth', __name__)
+
+# Validation helper function
+def validate_signup_form(form):
+    errors = []
+
+    # Check if username contains only alphabets (no numbers)
+    if not form['username'].isalpha():
+        errors.append('❌ Username must only contain letters, not numbers or special characters.')
+
+    # Check if name contains only alphabets (no numbers)
+    if not form['name'].isalpha():
+        errors.append('❌ Name must only contain letters, not numbers or special characters.')
+
+    # Check if phone number contains exactly 10 digits
+    if not form['phone'].isdigit() or len(form['phone']) != 10:
+        errors.append('❌ Phone number must be exactly 10 digits.')
+
+    # Check if gender is either 'male' or 'female'
+    if form['gender'].lower() not in ['male', 'female']:
+        errors.append('❌ Gender must be either "male" or "female".')
+
+    # Validate height range
+    try:
+        height = float(form['height'])
+        if not 1.5 <= height <= 2.5:
+            errors.append('❌ Height must be between 1.5 and 2.5 meters.')
+    except ValueError:
+        errors.append('❌ Height must be a valid number.')
+        
+    return errors
+
 
 @auth.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -15,20 +47,31 @@ def signup():
         session = g.db
         form = request.form
         username = form['username']
+        name = form['name']
+        phone = form['phone']
+        gender = form['gender']
+
+        # Validate form input
+        errors = validate_signup_form(form)
+        
+        if errors:
+            for error in errors:
+                flash(error, 'danger')
+            return render_template('signup.html', form=form)  # Re-render signup page with form data
 
         # Check if username already exists
         existing_user = session.query(User).filter_by(username=username).first()
         if existing_user:
             flash('❌ Username already exists. Please choose a different one.', 'danger')
-            return render_template('signup.html', form=form)  # Re-render signup page with form data (optional)
+            return render_template('signup.html', form=form)
 
         # Save form data in session
         flask_session['signup_data'] = {
             'username': username,
             'password': generate_password_hash(form['password'], method='pbkdf2:sha256'),
-            'name': form['name'],
-            'phone': form['phone'],
-            'gender': form['gender'],
+            'name': name,
+            'phone': phone,
+            'gender': gender,
             'age': float(form['age']),
             'height': float(form['height']),
             'current_weight': float(form['current_weight']),
@@ -194,7 +237,7 @@ def food_recommendations(user_id):
             print(f"{recommendations.recommended_food} -> {recommendations.sesion}")
             grouped[recommendations.sesion].append(recommendations)
 
-        print("Grouped Keys:", list(grouped.keys()))
+        print("Grouped Keys:", list(grouped.keys()))  # Add this
 
         return render_template(
             'food_recommendation.html',

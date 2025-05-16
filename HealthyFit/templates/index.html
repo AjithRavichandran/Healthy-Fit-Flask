@@ -3,36 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>HealthyFit - Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .hero-img {
-            width: 100%;
-            max-height: 400px;
-            object-fit: cover;
-            border-radius: 12px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="bg-light">
 
-<div class="container mt-5">
-    <!-- Banner Image -->
-    <div class="mb-4 text-center">
-        <img src="https://source.unsplash.com/1200x400/?fitness,health" alt="HealthyFit Banner" class="hero-img shadow">
-    </div>
+    <div class="container py-5">
 
-    <!-- Welcome Text -->
-    <div class="text-center">
-        <h1 class="mb-3">Welcome to HealthyFit!</h1>
-        <p class="lead">HealthyFit is your personalized fitness companion. Track your goals, monitor your progress, and stay motivated with us. Whether you're looking to lose weight, gain muscle, or simply live healthier — we’ve got you covered.</p>
-
-        <!-- Login and Signup Buttons -->
-        <div class="mt-4">
-            <a href="{{ url_for('auth.login') }}" class="btn btn-primary me-2">Login</a>
-            <a href="{{ url_for('auth.signup') }}" class="btn btn-success">Sign Up</a>
+        <!-- Banner Image -->
+        <div class="text-center mb-5">
+            <img src="{{ url_for('static', filename='images/HealthyFit.jpg') }}" alt="HealthyFit Banner" class="img-fluid rounded shadow-sm w-50">
         </div>
-    </div>
-</div>
 
+        <!-- Welcome Heading -->
+        <div class="text-center mb-4">
+            <h1 class="fw-bold">Welcome to HealthyFit – Your Friendly Fitness Tracker</h1>
+            <p class="text-muted fs-5 mx-auto mb-5" style="max-width: 800px;">
+    The Healthy Fit platform is designed to focus on your unique fitness and health needs based on your body's mechanisms.
+    Stay stress-free and on track with your goals through personalized strategies and data-driven meal and fitness recommendations.
+</p>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row justify-content-center g-4">
+            <div class="col-md-10 col-lg-8">
+                <div class="card border-start border-primary border-4 shadow-sm">
+                    <div class="card-body d-flex">
+                        <i class="bi bi-bar-chart-line-fill text-primary fs-3 me-3"></i>
+                        <div>
+                            <h5 class="card-title mb-1">Smart Data Collection</h5>
+                            <p class="card-text mb-0">We collect essential data — like current weight, target weight, gender, and age — to personalize your fitness path from the start.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10 col-lg-8">
+                <div class="card border-start border-success border-4 shadow-sm">
+                    <div class="card-body d-flex">
+                        <i class="bi bi-person-lines-fill text-success fs-3 me-3"></i>
+                        <div>
+                            <h5 class="card-title mb-1">Personalized Problem Analysis</h5>
+                            <p class="card-text mb-0">We analyze your habits and lifestyle to recommend food and wellness routines tailored specifically to your needs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10 col-lg-8">
+                <div class="card border-start border-warning border-4 shadow-sm">
+                    <div class="card-body d-flex">
+                        <i class="bi bi-calendar3 text-warning fs-3 me-3"></i>
+                        <div>
+                            <h5 class="card-title mb-1">Daily Meal Recommendations</h5>
+                            <p class="card-text mb-0">Get daily meal plans — breakfast, lunch, and dinner — with shake/snack options, precise portions, and calorie counts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-10 col-lg-8">
+                <div class="card border-start border-danger border-4 shadow-sm">
+                    <div class="card-body d-flex">
+                        <i class="bi bi-pencil-square text-danger fs-3 me-3"></i>
+                        <div>
+                            <h5 class="card-title mb-1">Flexible Goal Editing</h5>
+                            <p class="card-text mb-0">Update your fitness goals any time — your recommendations will adjust automatically as your journey evolves.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Buttons -->
+        <div class="text-center mt-5">
+            <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg me-3 px-4">Login</a>
+            <a href="{{ url_for('auth.signup') }}" class="btn btn-success btn-lg px-4">Sign Up</a>
+        </div>
+
+    </div>
+
+    <!-- Bootstrap JS (optional) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

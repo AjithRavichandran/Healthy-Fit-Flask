@@ -2,6 +2,7 @@ from flask import Flask, g
 from .extensions import Session, login_manager
 from datetime import timedelta
 
+
 def create_app():
     app = Flask(__name__)
     app.secret_key = 'your-secret-key'
